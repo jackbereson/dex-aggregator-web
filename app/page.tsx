@@ -13,6 +13,7 @@ import {
   AiOutlineWallet,
 } from "react-icons/ai";
 import CurrencyInput from "react-currency-input-field";
+import { SelectAssetModal } from "../components/SelectAssetModal";
 
 export default function Home() {
   const [fromToken, setFromToken] = useState("BNB");
@@ -148,20 +149,7 @@ const TokenInput = ({
         </div>
       </div>
       <div className="flex w-full max-w-lg items-center justify-between rounded-xl border border-gray-500 px-3 py-2">
-        <Button size="sm" color={"transparent"} className="hover:bg-gray-700">
-          <div className="flex items-center gap-2">
-            <img
-              src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" // Thay bằng icon token của bạn
-              alt="BNB"
-              className="size-5"
-            />
-            <span className="font-semibold text-white">BNB</span>
-            <span className="text-white">
-              <AiOutlineCaretDown />
-            </span>
-          </div>
-        </Button>
-
+        <SelectAssetButton />
         {/* Amount */}
         <div className="">
           <CurrencyInput
@@ -179,6 +167,33 @@ const TokenInput = ({
         </div>
       </div>
       {/* USD Value */}
+    </div>
+  );
+};
+
+const SelectAssetButton = () => {
+  const [openModal, setOpenModal] = useState(false);
+  return (
+    <div className="">
+      <Button
+        onClick={() => setOpenModal(!openModal)}
+        size="sm"
+        color={"transparent"}
+        className="hover:bg-gray-700"
+      >
+        <div className="flex items-center gap-2">
+          <img
+            src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" // Thay bằng icon token của bạn
+            alt="BNB"
+            className="size-5"
+          />
+          <span className="font-semibold text-white">BNB</span>
+          <span className="text-white">
+            <AiOutlineCaretDown />
+          </span>
+        </div>
+      </Button>
+      {openModal && <SelectAssetModal {...{ openModal, setOpenModal }} />}
     </div>
   );
 };
