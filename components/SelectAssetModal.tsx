@@ -1,13 +1,19 @@
 "use client";
 
 import { Button, Label, Modal, TextInput } from "flowbite-react";
+import { coinsHelper } from "../lib/helpers/coin.helper";
+import { IAsset } from "../lib/models/asset.model";
 
 export function SelectAssetModal({
   openModal,
   setOpenModal,
+  selectedToken,
+  selectToken,
 }: {
   openModal: boolean;
   setOpenModal: (value: boolean) => void;
+  selectedToken: IAsset;
+  selectToken: (token: IAsset) => void;
 }) {
   return (
     <>
@@ -18,14 +24,18 @@ export function SelectAssetModal({
         onClose={() => setOpenModal(false)}
       >
         <Modal.Header className="py-3">
-          <div className="flex items-center gap-2">
-            <img
-              src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" // Thay bằng icon token của bạn
-              alt="BNB"
-              className="size-5"
-            />
-            <span className="font-semibold text-white">BNB</span>
-          </div>
+          {selectedToken ? (
+            <div className="flex items-center gap-2">
+              <img
+                src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" // Thay bằng icon token của bạn
+                alt="BNB"
+                className="size-5"
+              />
+              <span className="font-semibold text-white">BNB</span>
+            </div>
+          ) : (
+            <>Select token</>
+          )}
         </Modal.Header>
         <Modal.Body>
           <TextInput
@@ -35,94 +45,50 @@ export function SelectAssetModal({
           <div>
             <Label>Select token</Label>
             <div className="mb-5 flex gap-2">
-              {/* BNB */}
-              <div className="flex cursor-pointer items-center gap-2 rounded-full bg-gray-800 p-1 px-2">
-                <img
-                  src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" // Thay bằng icon token của bạn
-                  alt="BNB"
-                  className="size-5"
-                />
-                <span className="font-semibold text-white">BNB</span>
-              </div>
-
-              {/* USDT */}
-              <div className="flex cursor-pointer items-center gap-2 rounded-full bg-gray-800 p-1 px-2">
-                <img
-                  src="https://cryptologos.cc/logos/tether-usdt-logo.png" // Thay bằng icon token của bạn
-                  alt="USDT"
-                  className="size-5"
-                />
-                <span className="font-semibold text-white">USDT</span>
-              </div>
-
-              {/* USDC */}
-              <div className="flex cursor-pointer items-center gap-2 rounded-full bg-gray-800 p-1 px-2">
-                <img
-                  src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" // Thay bằng icon token của bạn
-                  alt="USDC"
-                  className="size-5"
-                />
-                <span className="font-semibold text-white">USDC</span>
-              </div>
-
-              {/* ETH */}
-              <div className="flex cursor-pointer items-center gap-2 rounded-full bg-gray-800 p-1 px-2">
-                <img
-                  src="https://cryptologos.cc/logos/ethereum-eth-logo.png" // Thay bằng icon token của bạn
-                  alt="ETH"
-                  className="size-5"
-                />
-                <span className="font-semibold text-white">ETH</span>
-              </div>
+              {coinsHelper.slice(0, 2).map((coin, k) => (
+                <div
+                  key={k}
+                  className="flex cursor-pointer items-center gap-2 rounded-full bg-gray-800 p-1 px-2"
+                  onClick={() => {
+                    selectToken(coin);
+                    setOpenModal(false);
+                  }}
+                >
+                  <img
+                    src={coin.icon} // Thay bằng icon token của bạn
+                    alt={coin.symbol}
+                    className="size-5"
+                  />
+                  <span className="font-semibold text-white">
+                    {coin.symbol}
+                  </span>
+                </div>
+              ))}
             </div>
             <div className="">
-              {/* BNB */}
-              <div className="flex cursor-pointer items-center justify-between py-2 text-white">
-                <div className="flex items-center gap-2">
-                  <img
-                    src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" // Thay bằng icon token của bạn
-                    alt="BNB"
-                    className="size-9"
-                  />
-                  <div>
-                    <div className="font-semibold ">BNB</div>
-                    <div className="opacity-50">Binance Coin</div>
+              {coinsHelper.map((coin, k) => (
+                <div
+                  key={k}
+                  className="flex cursor-pointer items-center justify-between py-2 text-white"
+                  onClick={() => {
+                    selectToken(coin);
+                    setOpenModal(false);
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={coin.icon} // Thay bằng icon token của bạn
+                      alt={coin.symbol}
+                      className="size-9"
+                    />
+                    <div>
+                      <div className="font-semibold ">{coin.symbol}</div>
+                      <div className="opacity-50">{coin.name}</div>
+                    </div>
                   </div>
+                  <div>0 BNB</div>
                 </div>
-                <div>0 BNB</div>
-              </div>
-
-              {/* USDT */}
-              <div className="flex cursor-pointer items-center justify-between py-2 text-white">
-                <div className="flex items-center gap-2">
-                  <img
-                    src="https://cryptologos.cc/logos/tether-usdt-logo.png" // Thay bằng icon token của bạn
-                    alt="USDT"
-                    className="size-9"
-                  />
-                  <div>
-                    <div className="font-semibold ">USDT</div>
-                    <div className="opacity-50">Tether</div>
-                  </div>
-                </div>
-                <div>0 USDT</div>
-              </div>
-
-              {/* USDC */}
-              <div className="flex cursor-pointer items-center justify-between py-2 text-white">
-                <div className="flex items-center gap-2">
-                  <img
-                    src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" // Thay bằng icon token của bạn
-                    alt="USDC"
-                    className="size-9"
-                  />
-                  <div>
-                    <div className="font-semibold ">USDC</div>
-                    <div className="opacity-50">USD Coin</div>
-                  </div>
-                </div>
-                <div>0 USDC</div>
-              </div>
+              ))}
             </div>
           </div>
         </Modal.Body>
