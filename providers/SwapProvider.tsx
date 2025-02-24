@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { IAsset } from "../lib/models/asset.model";
 
-interface TokenContextProps {
+interface SwapContextProps {
   fromToken: IAsset | undefined;
   toToken: IAsset | undefined;
   setFromToken: (token: IAsset) => void;
@@ -12,7 +12,7 @@ interface TokenContextProps {
   setToInputValue: (value: number) => void;
 }
 
-const SwapContext = createContext<TokenContextProps | null>(null);
+const SwapContext = createContext<SwapContextProps | null>(null);
 
 export const SwapProvider = ({ children }: { children: React.ReactNode }) => {
   const [fromToken, setFromToken] = useState<IAsset>();

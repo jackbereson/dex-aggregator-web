@@ -46,3 +46,7 @@ const USDC: IAsset = {
 };
 
 export const coinsHelper: IAsset[] = [ETH, BNB, BNB_TESTNET, USDT, USDC];
+
+export const getCoinsByChainId = (chainId: number) => {
+  return coinsHelper.filter((coin) => coin.chainId === chainId);
+};
